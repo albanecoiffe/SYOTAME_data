@@ -1,0 +1,7 @@
+path: ./data_pk_quentin
+train: train/images
+val: valid/images
+nc: 2
+names:
+- empty
+- occupied
