@@ -8,21 +8,23 @@ import os
 
 load_dotenv()
 
-def detect(image_path, model_path='yolov8n.pt'):
+def detect(image, model_path='yolov8n.pt'):
     model = YOLO(model_path)
 
     if image is None:
-        print(f"Erreur : Impossible de lire l'image '{image_path}'")
-        return
+        print("Erreur : l'image est vide ou illisible")
+        return 0
 
     results = model(image, conf=0.25)
-
     result = results[0]
     nb_zeros = (result.boxes.cls == 0).sum().item()
     return nb_zeros
 
+
 def update_parking_in_db(parking_document, nb_empty):
-    uri = os.getenv("MONGODB_URI")
+    api = os.getenv("MONGODB_API")
+    uri = f"mongodb+srv://{api}@syotame-db.qopkurw.mongodb.net/?retryWrites=true&w=majority&appName=SYOTAME-DB"
+
     client = MongoClient(uri, server_api=ServerApi('1')) #server_api=ServerApi('1') demande a MongoDB de fournir une interface compatible avec la version 1 de l’API. Garantit que le code reste compatible dans le futur même si l’API évolue 
 
     try:
