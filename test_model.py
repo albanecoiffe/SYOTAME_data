@@ -16,7 +16,7 @@ def detect(image_path, model_path='yolov8n.pt'):
     image = resize_image(image, size=(640, 320))
 
     # Lancer la détection
-    results = model(image, conf=0.25)
+    results = model(image, conf=0.40)
 
 
     # Afficher les résultats
