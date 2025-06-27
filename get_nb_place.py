@@ -17,7 +17,7 @@ def detect(image_path, model_path='yolov8n.pt'):
     nb_zeros = (result.boxes.cls == 0).sum().item()
     return nb_zeros
 
-def update_parking_in_db(parking_document):
+def update_parking_in_db(parking_document, nb_empty):
     uri = "mongodb+srv://LG:U55Ltdc.pB7PMuj@syotame-db.qopkurw.mongodb.net/?retryWrites=true&w=majority&appName=SYOTAME-DB"
     client = MongoClient(uri, server_api=ServerApi('1')) #server_api=ServerApi('1') demande a MongoDB de fournir une interface compatible avec la version 1 de l’API. Garantit que le code reste compatible dans le futur même si l’API évolue 
 
@@ -26,6 +26,7 @@ def update_parking_in_db(parking_document):
         db = client["syotame"]  # nom de la base de données
         parking_collection = db["parking"]
 
+        parking_document["nbPlaceDispo"] = nb_empty
         pk_id = parking_document["id"]
         # Si un document avec le même parking id existe, on le supprime
         existing = parking_collection.find_one({"id": pk_id})
@@ -42,8 +43,8 @@ def get_img_api():
     parking_id="P000"  # ID du parking à mettre à jour
     parking_document = {
         "id": parking_id,
-        "nbPlaceMax": 0,
-        "geoloc": {"lat": 27.9879017, "lon": 86.9253141},
+        "nbPlaceMax": 12,
+        "geoloc": {"lat": 48.862725, "lon": 2.287592},
         "nbPlaceReserve": 0
     }
     image_path = sys.argv[1]
@@ -57,7 +58,7 @@ if __name__ == '__main__':
         model_path = sys.argv[2] if len(sys.argv) > 2 else './models/train6/weights/best.pt'
         parking_document,  image = get_img_api()
         nb_empty = detect(image, model_path)
-        update_parking_in_db(parking_document)
+        update_parking_in_db(parking_document, nb_empty)
 
 
     
