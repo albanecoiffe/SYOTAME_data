@@ -3,6 +3,10 @@ import cv2
 from ultralytics import YOLO
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def detect(image_path, model_path='yolov8n.pt'):
     model = YOLO(model_path)
@@ -18,7 +22,7 @@ def detect(image_path, model_path='yolov8n.pt'):
     return nb_zeros
 
 def update_parking_in_db(parking_document, nb_empty):
-    uri = "mongodb+srv://LG:U55Ltdc.pB7PMuj@syotame-db.qopkurw.mongodb.net/?retryWrites=true&w=majority&appName=SYOTAME-DB"
+    uri = os.getenv("MONGODB_URI")
     client = MongoClient(uri, server_api=ServerApi('1')) #server_api=ServerApi('1') demande a MongoDB de fournir une interface compatible avec la version 1 de l’API. Garantit que le code reste compatible dans le futur même si l’API évolue 
 
     try:
