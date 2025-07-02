@@ -49,9 +49,11 @@ def get_img_api():
     parking_id="P000"  # ID du parking à mettre à jour
     parking_document = {
         "id": parking_id,
+        "nom" : "Parking village d'Hennemont",
+        "adresse":"village d'Hennemont",
         "nbPlaceMax": 12,
-        "geoloc": {"lat": 48.862725, "lon": 2.287592},
-        "nbPlaceReserve": 0
+        "nbPlaceReserve": 0,
+        "geoloc": {"lat": 48.862725, "lon": 2.287592}
     }
     image_path = sys.argv[1]
     image = cv2.imread(image_path)
@@ -65,6 +67,3 @@ if __name__ == '__main__':
         parking_document,  image = get_img_api()
         nb_empty = detect(image, model_path)
         update_parking_in_db(parking_document, nb_empty)
-
-
-    

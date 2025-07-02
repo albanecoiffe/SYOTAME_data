@@ -13,7 +13,7 @@ def detect(image_path, model_path='yolov8n.pt'):
         print(f"Erreur : Impossible de lire l'image '{image_path}'")
         return
 
-    image = resize_image(image, size=(640, 320))
+    image = resize_image(image, size=(1280, 640))
 
     # Lancer la détection
     results = model(image, conf=0.40)
