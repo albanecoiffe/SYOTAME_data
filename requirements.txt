@@ -1,0 +1,7 @@
+ultralytics
+opencv-python
+pymongo
+python-dotenv
+numpy==2.3.0
+matplotlib
+pandas
