@@ -3,7 +3,7 @@
 /data_pk_quentin/
 /models/*
 !/models/train6/
-!/models/model.pt
+!/models/best.pt
 /pk_quentin/
 /PKLot_cleaned/
 /PKLot.v2-640.yolov5pytorch/
