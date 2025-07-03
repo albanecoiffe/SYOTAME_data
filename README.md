@@ -7,8 +7,17 @@ This git repository is the data portion of this project. With everything concern
 # Data
 For the data used to fine-tuned this model, we used multiple Roboflow dataset as well as our own dataset. For our own dataset we created it via picture of the parking we initialy wanted to use.  
 
+## Roboflow dataset
+Initialy we used the the [PKLot dataset](https://public.roboflow.com/object-detection/pklot). With this model we trained a model, but the result were horrible.  
+So after seeing that, we choose to use other dataset, also from Roboflow. We ended up using 3 distinct dataset :  
+- [parking-space](https://universe.roboflow.com/muhammad-syihab-bdynf/parking-space-ipm1b)  
+- [car-space-find](https://universe.roboflow.com/data-a09tr/car-space-find-wozyb)  
+- [parking-space](https://universe.roboflow.com/data-a09tr/parking-space-pubnz-ftfle)  
+
+With those dataset, the model train was a bit better, but still not great, so we decided to create our own dataset.
+
 ## Personalized dataset
-After multiple test of model, we decided to create our own dataset with real picture of the parking we wanted to use.  
+Our personalized dataset, has been created with real picture of the parking we planed to use.  
 
 1. First we took about 100 picture with different light, angles and time of day.  
   
@@ -27,6 +36,6 @@ After doing all of that with merged this personalizaned dataset with the 3 we fo
 For our model we used google colab to train it. Like that we had access to faster GPU to improve the traning time needed for our model.  
 We created an object detection model, fine-tuning a yolo model.  
 To have the best possible model we train multiple model using different dataset. In total we train 3 models with 3 different dataset :  
-1. With PKLot dataset, using yolov5
+1. With [PKLot dataset](https://public.roboflow.com/object-detection/pklot), using yolov5.
 2. With 3 Roboflow dataset using yolov8
-3. With 3 Roboflow dataset + our personalized dataset, using yolov8
+3. With 3 Roboflow dataset + our personalized dataset, using yolov8  
