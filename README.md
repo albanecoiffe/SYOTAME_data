@@ -22,10 +22,10 @@ Our personalized dataset, has been created with real picture of the parking we p
 1. First we took about 100 picture with different light, angles and time of day.  
   
 2. Then we had to annotated every pictures by adding bounding boxes. For that step we used [humansignal.com](https://app.humansignal.com/). This website gave us the possiblity to easily mark every picture with bounding boxes. We created 2 labels (empty and occupied), to match the dataset we got from RoboFlow.  
-![alt text](picture_readme/image-1.png)
+![Label of bounding boxes : empty & occupied](picture_readme/image-1.png)
   
 3. After we annoted, by hand, every picture took.
-![alt text](picture_readme/image.png)
+![Parking picture, with bounding boxes around the parking space](picture_readme/image.png)
     Purple for empty and red for occupied.  
       
 4. Finaly we split the dataset between train and validation. To do that we used a function from a [git repository](https://raw.githubusercontent.com/EdjeElectronics/Train-and-Deploy-YOLO-Models/refs/heads/main/utils/train_val_split.py). We choos to have 90% of picture in train dataset and 10% of picture in validation dataset.  
@@ -36,6 +36,12 @@ After doing all of that with merged this personalizaned dataset with the 3 we fo
 For our model we used google colab to train it. Like that we had access to faster GPU to improve the traning time needed for our model.  
 We created an object detection model, fine-tuning a yolo model.  
 To have the best possible model we train multiple model using different dataset. In total we train 3 models with 3 different dataset :  
-1. With [PKLot dataset](https://public.roboflow.com/object-detection/pklot), using yolov5.
-2. With 3 Roboflow dataset using yolov8
+1. With [PKLot dataset](https://public.roboflow.com/object-detection/pklot), using yolov5.  
+Result :
+![Picture of parking with 0 bounding boxes, because the model can't detect them, expected : 5 empty, 7 occupied](picture_readme/model1.png)  
+2. With 3 Roboflow dataset using yolov8  
+Result :
+![Picture of parking with 4 bounding boxes (2 empty, 2 occupied), the model can't detect all of them, expected : 5 empty, 7 occupied](picture_readme/model2.png)  
 3. With 3 Roboflow dataset + our personalized dataset, using yolov8  
+Result :
+![Picture of parking with 12 bounding boxes (5 empty, 7 occupied), the model detect all of them, expected : 5 empty, 7 occupied](picture_readme/model3.png)  
