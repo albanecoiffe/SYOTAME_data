@@ -20,7 +20,6 @@ def detect(image, model_path='yolov8n.pt'):
     nb_zeros = (result.boxes.cls == 0).sum().item()
     return nb_zeros
 
-
 def update_parking_in_db(parking_document, nb_empty):
     api = os.getenv("MONGODB_API")
     uri = f"mongodb+srv://{api}@syotame-db.qopkurw.mongodb.net/?retryWrites=true&w=majority&appName=SYOTAME-DB"
@@ -37,8 +36,8 @@ def update_parking_in_db(parking_document, nb_empty):
         # Si un document avec le même parking id existe, on le supprime
         existing = parking_collection.find_one({"id": pk_id})
         if existing:
+            parking_document["nbPlaceReserve"] = existing["nbPlaceReserve"]
             parking_collection.delete_one({"_id": existing["_id"]})
-
         parking_collection.insert_one(parking_document)
 
     #Pour se deconnecter, la partie rse de la bdd pour éviter une connexion prolongée
@@ -59,11 +58,11 @@ def get_img_api():
     image = cv2.imread(image_path)
     return parking_document, image
 
+def use_AI(parking_document,  image):
+    model_path = './models/best.pt'
+    nb_empty = detect(image, model_path)
+    update_parking_in_db(parking_document, nb_empty)
+
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Utilisation : python detect.py chemin/vers/image.jpg [chemin/vers/model.pt]")
-    else:
-        model_path = sys.argv[2] if len(sys.argv) > 2 else './models/train6/weights/best.pt'
-        parking_document,  image = get_img_api()
-        nb_empty = detect(image, model_path)
-        update_parking_in_db(parking_document, nb_empty)
+    parking_document,  image = get_img_api()
+    use_AI(parking_document,  image)
