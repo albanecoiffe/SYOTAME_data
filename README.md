@@ -37,11 +37,19 @@ For our model we used google colab to train it. Like that we had access to faste
 We created an object detection model, fine-tuning a yolo model.  
 To have the best possible model we train multiple model using different dataset. In total we train 3 models with 3 different dataset :  
 1. With [PKLot dataset](https://public.roboflow.com/object-detection/pklot), using yolov5.  
-Result :
+Result :  
 ![Picture of parking with 0 bounding boxes, because the model can't detect them, expected : 5 empty, 7 occupied](picture_readme/model1.png)  
 2. With 3 Roboflow dataset using yolov8  
-Result :
+Result :  
 ![Picture of parking with 4 bounding boxes (2 empty, 2 occupied), the model can't detect all of them, expected : 5 empty, 7 occupied](picture_readme/model2.png)  
 3. With 3 Roboflow dataset + our personalized dataset, using yolov8  
-Result :
+Result :  
 ![Picture of parking with 12 bounding boxes (5 empty, 7 occupied), the model detect all of them, expected : 5 empty, 7 occupied](picture_readme/model3.png)  
+
+# Inference
+After completing the training of our model, we designed a python file (`get_nb_place.py` or `get_nb_place_img.py`) to use it and write the necessary data in the database. Both of those file take a picture, load the trained model, use the model with the picture a,d write the number of empty place in the databse. The only diferrence, is that the `get_nb_place_img.py` file also display the picture with the bounding boxes.  
+
+We also created file to use the model with a picture (`test_model.py`), a video (`test_video.py`). Both of the files take an input (picture or video), load the trained model, use the model with the input. For the `test_model.py` file, the picture with the bounding boxes is display. For the `test_video.py` file the video is save as `[name_original_video]_detected.mp4` in a demo folder.  
+
+For example, this picture as been thourght the `test_model.py` file :  
+![Picture of parking with 12 bounding boxes (5 empty, 7 occupied)](picture_readme/model3.png)  
